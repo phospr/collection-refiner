@@ -20,29 +20,85 @@ use Phospr\CollectionRefiner;
 class CollectionRefinerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test empty criteria
+     * Test refine
      *
      * @author Tom Haskins-Vaughan <tom@tomhv.uk>
      * @since  0.1.0
+     *
+     * @dataProvider refineProvider
      */
-    public function testEmptyCriteria()
+    public function testRefine($collection, $criteria, $count, $first)
     {
-        $rawCollection = [
+        $refiner = new CollectionRefiner();
+        $refinedCollection = $refiner->refine($collection, $criteria);
+
+        $this->assertEquals($count, count($refinedCollection));
+        $this->assertEquals($first, $refinedCollection[0]);
+    }
+
+    /**
+     * Provide data for testRefine()
+     *
+     * @author Tom Haskins-Vaughan <tom@tomhv.uk>
+     * @since  0.1.0
+     *
+     * @return array
+     */
+    public static function refineProvider()
+    {
+        // collection
+        // criteria
+        // count
+        // first
+        return [
+            // red cars
             [
-                'model' => 'Toyota',
-                'make' => 'Yaris',
-                'color' => 'silver',
+                self::getCars(),
+                ['color' => 'red'],
+                4,
+                ['make' => 'Toyota', 'model' => 'Rav 4', 'color' => 'red'],
             ],
+            // fords
             [
-                'model' => 'Toyota',
-                'make' => 'Rav 4',
-                'color' => 'red',
+                self::getCars(),
+                ['make' => 'Ford'],
+                3,
+                ['make' => 'Ford', 'model' => 'Mustang', 'color' => 'red'],
+            ],
+            // white fords
+            [
+                self::getCars(),
+                ['make' => 'Ford', 'color' => 'white'],
+                1,
+                ['make' => 'Ford', 'model' => 'Focus', 'color' => 'white'],
             ],
         ];
+    }
 
-        $refiner = new CollectionRefiner();
-        $refinedCollection = $refiner->refine($rawCollection);
-
-        $this->assertEquals($rawCollection, $refinedCollection);
+    /**
+     * Get a collection of cars
+     *
+     * @author Tom Haskins-Vaughan <tom@tomhv.uk>
+     * @since  0.1.0
+     *
+     * @return array
+     */
+    private static function getCars()
+    {
+        return [
+            ['make' => 'Toyota', 'model' => 'Yaris', 'color' => 'silver'],
+            ['make' => 'Toyota', 'model' => 'Rav 4', 'color' => 'red'],
+            ['make' => 'Toyota', 'model' => 'Camry', 'color' => 'white'],
+            ['make' => 'Toyota', 'model' => 'Camry', 'color' => 'black'],
+            ['make' => 'Ford', 'model' => 'Mustang', 'color' => 'red'],
+            ['make' => 'Ford', 'model' => 'Focus', 'color' => 'red'],
+            ['make' => 'Ford', 'model' => 'Focus', 'color' => 'white'],
+            ['make' => 'Jaguar', 'model' => 'E Type', 'color' => 'black'],
+            ['make' => 'Jaguar', 'model' => 'E Type', 'color' => 'blue'],
+            ['make' => 'VW', 'model' => 'Golf', 'color' => 'silver'],
+            ['make' => 'VW', 'model' => 'Golf', 'color' => 'red'],
+            ['make' => 'VW', 'model' => 'Passat', 'color' => 'white'],
+            ['make' => 'Subaru', 'model' => 'Imprezza', 'color' => 'white'],
+        ];
     }
 }

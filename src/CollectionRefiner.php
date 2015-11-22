@@ -33,13 +33,16 @@ class CollectionRefiner
         $refinedCollection = [];
 
         foreach ($rawCollection as $element) {
+            $criteriaMatches = 0;
+
             foreach ($criteria as $key => $value) {
                 if ($element[$key] == $value) {
-                    $refinedCollection[] = $element;
-
-                    // We just need one to match, so break out of loop
-                    break;
+                    $criteriaMatches++;
                 }
+            }
+
+            if (count($criteria) == $criteriaMatches) {
+                $refinedCollection[] = $element;
             }
         }
 
