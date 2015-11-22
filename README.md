@@ -1,3 +1,3 @@
 # Phospr\CollectionRefiner
 
-Making your collections a tad more refined
+*Making your collections more refined*
