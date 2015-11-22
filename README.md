@@ -1,2 +1,3 @@
-# collection-refiner
-Get all the good stuff out of your collection
+# Phospr\CollectionRefiner
+
+Making your collections a tad more refined
